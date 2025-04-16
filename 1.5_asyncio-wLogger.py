@@ -1,12 +1,32 @@
-import os
-import shutil
-import psutil
-import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
-import time
-import csv
-import asyncio
-from datetime import datetime
+import subprocess
+import sys
+
+# Auto-install dependencies if missing
+def install_requirements():
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
+
+try:
+    import os
+    import shutil
+    import psutil
+    import matplotlib.pyplot as plt
+    import matplotlib.ticker as ticker
+    import time
+    import csv
+    import asyncio
+    from datetime import datetime
+except ImportError:
+    print("Installing required packages...")
+    install_requirements()
+    import os
+    import shutil
+    import psutil
+    import matplotlib.pyplot as plt
+    import matplotlib.ticker as ticker
+    import time
+    import csv
+    import asyncio
+    from datetime import datetime
 
 def bytes_to_readable(size):
     for unit in ['B', 'KB', 'MB', 'GB', 'TB']:
