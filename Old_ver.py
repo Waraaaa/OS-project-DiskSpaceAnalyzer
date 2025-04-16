@@ -169,7 +169,7 @@ def main():
     end_time = time.time()
     elapsed_time = end_time - start_time
     print(f"\nProgram finished analyze in {elapsed_time:.2f} seconds.")
-    old_path = ""
+    old_path = start_drive
     path = start_drive
     while True:
         print("-" * 55)
