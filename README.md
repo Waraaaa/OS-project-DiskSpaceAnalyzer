@@ -1,2 +1,3 @@
-# OS-project-DiskSpaceAnalyzer
+# OS Project: Disk Space Analyzer
+
 For OS project.
