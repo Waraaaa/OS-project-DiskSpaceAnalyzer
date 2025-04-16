@@ -1,13 +1,16 @@
 import subprocess
 import sys
+import os
 
-# Auto-install dependencies if missing
+# Auto-install from requirements.txt if needed
 def install_requirements():
     try:
         import psutil
         import matplotlib.pyplot as plt
+        import pandas
     except ImportError:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "psutil", "matplotlib"])
+        requirements_path = os.path.join(os.path.dirname(__file__), "requirements.txt")
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", requirements_path])
 
 install_requirements()
 
