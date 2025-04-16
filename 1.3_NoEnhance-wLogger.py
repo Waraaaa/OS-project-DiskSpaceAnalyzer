@@ -1,3 +1,16 @@
+import subprocess
+import sys
+
+# Auto-install dependencies if missing
+def install_requirements():
+    try:
+        import psutil
+        import matplotlib.pyplot as plt
+    except ImportError:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "psutil", "matplotlib"])
+
+install_requirements()
+
 import os
 import shutil
 import psutil
