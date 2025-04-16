@@ -1,24 +1,24 @@
 import os
- import shutil
- import psutil
- import matplotlib.pyplot as plt
- import matplotlib.ticker as ticker
- import time
- import csv
- from datetime import datetime
+import shutil
+import psutil
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
+import time
+import csv
+from datetime import datetime
  
- def bytes_to_readable(size):
+def bytes_to_readable(size):
      for unit in ['B', 'KB', 'MB', 'GB', 'TB']:
          if size < 1024:
              return f"{size:.2f} {unit}"
          size /= 1024
      return f"{size:.2f} PB"
  
- def list_drives():
+def list_drives():
      partitions = psutil.disk_partitions(all=False)
      return [p.device for p in partitions]
  
- def get_size(start_path):
+def get_size(start_path):
      total_size = 0
      for dirpath, _, filenames in os.walk(start_path, onerror=lambda e: None):
          for f in filenames:
@@ -30,7 +30,7 @@ import os
                  pass
      return total_size
  
- def log_benchmark(path, item_count, total_size, elapsed_time, filename="benchmark_log.csv"):
+def log_benchmark(path, item_count, total_size, elapsed_time, filename="benchmark_log.csv"):
      header = ["timestamp", "path", "item_count", "total_size_bytes", "elapsed_time_sec"]
      log_row = [
          datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -46,7 +46,7 @@ import os
              writer.writerow(header)
          writer.writerow(log_row)
  
- def show_analysis(disk_data, total, used, free):
+def show_analysis(disk_data, total, used, free):
      print(f"\nTotal disk size: {bytes_to_readable(total)}")
      print(f"Used: {bytes_to_readable(used)}")
      print(f"Free: {bytes_to_readable(free)}\n")
@@ -56,7 +56,7 @@ import os
          percent_used = (data["size"] / used * 100) if used > 0 else 0
          print(f"{data['path']:<30} {bytes_to_readable(data['size']):>10} {percent_used:>11.2f}%")
  
- def plot(disk_data, base_path):
+def plot(disk_data, base_path):
      disk_data = sorted(disk_data, key=lambda x: x["size"], reverse=True)
      paths = [item["path"] for item in disk_data]
      sizes = [item["size"] for item in disk_data]
@@ -75,7 +75,7 @@ import os
      plt.grid(axis='x', linestyle='--', alpha=0.6)
      plt.show(block=False)
  
- def analyze(base_path="/"):
+def analyze(base_path="/"):
      print(f"Analyzing: {base_path}")
      start_time = time.time()
  
@@ -119,7 +119,7 @@ import os
      plot(disk_data, base_path)
      log_benchmark(base_path, item_count, total_size_collected, elapsed_time)
  
- def input_case(drives):
+def input_case(drives):
      print("This program found more than 1 drive.")
      print("Please select the drive. Type the number:")
      while True:
@@ -130,7 +130,7 @@ import os
          else:
              print("Invalid drive. Please try again (\"exit\" to end program)")
  
- def main():
+def main():
      drives = list_drives()
      for i, d in enumerate(drives):
          print(f"{i+1}: {d}")
@@ -166,5 +166,5 @@ import os
  
          analyze(path)
  
- if __name__ == "__main__":
+if __name__ == "__main__":
      main()
