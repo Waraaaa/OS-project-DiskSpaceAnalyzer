@@ -1,12 +1,28 @@
+import subprocess
+import sys
 import os
 import shutil
-import psutil
-import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
 import time
 import csv
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
+
+# Function to install missing dependencies
+def install_requirements():
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
+
+# Try importing the required packages
+try:
+    import psutil
+    import matplotlib.pyplot as plt
+    import matplotlib.ticker as ticker
+except ImportError:
+    print("Some packages are missing. Installing...")
+    install_requirements()
+    # Try importing again after installation
+    import psutil
+    import matplotlib.pyplot as plt
+    import matplotlib.ticker as ticker
 
 def bytes_to_readable(size):
     for unit in ['B', 'KB', 'MB', 'GB', 'TB']:
