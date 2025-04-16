@@ -3,6 +3,7 @@ import shutil
 import psutil
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+import time
 
 # def is_valid_drive(path):
 #     return os.path.exists(path) and os.path.ismount(path)
@@ -134,7 +135,12 @@ def main():
     if len(drives) > 1:
         start_drive = input_case(drives)
 
+    start_time = time.time()
     analyze(start_drive)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"\nProgram finished analyze in {elapsed_time:.2f} seconds.")
+
     old_path = ""
     path = start_drive
     while True:
