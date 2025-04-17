@@ -79,7 +79,7 @@ def log_benchmark(path, item_count, total_size, elapsed_time, filename="benchmar
         path,
         item_count,
         total_size,
-        f"{elapsed_time:.4f}"
+        f"{elapsed_time:.4f}"  # Time it took to perform the analysis (seconds).
     ]
     write_header = not os.path.exists(filename)
     with open(filename, mode="a", newline="") as f:
