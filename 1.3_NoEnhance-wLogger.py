@@ -15,6 +15,7 @@ def install_requirements():
         # Try import necessary packages
         import psutil
         import matplotlib.pyplot as plt
+        import pandas
     except ImportError:
         # If any import fails -> install from requirements.txt
         requirements_path = os.path.join(os.path.dirname(__file__), "requirements.txt")
@@ -39,14 +40,13 @@ from datetime import datetime
 # =======================
 def bytes_to_readable(size):
     for unit in ['B', 'KB', 'MB', 'GB', 'TB']:
-        if size < 1024:  # If size is small enough -> show with current unit.
+        if size < 1024:
             return f"{size:.2f} {unit}"
         size /= 1024
-    return f"{size:.2f} PB"  # If size is larger than Terabyte.
+    return f"{size:.2f} PB"
 
 # =======================
-# List all drives in the system (like C:\, D:\ that already attach to the system,
-# (mounted drive only).
+# List all drives in the system (like C:\, D:\).
 # =======================
 def list_drives():
     partitions = psutil.disk_partitions(all=False)
@@ -170,7 +170,7 @@ def analyze(base_path="/"):
             if ext.lower() in SKIP_EXTENSIONS:
                 continue
 
-            disk_data.append({"path": item_path, "size": size})
+            disk_data.append({"path": item, "size": size})
             item_count += 1
             total_size_collected += size
 
