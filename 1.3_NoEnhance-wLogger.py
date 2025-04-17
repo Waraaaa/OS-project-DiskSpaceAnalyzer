@@ -45,7 +45,8 @@ def bytes_to_readable(size):
     return f"{size:.2f} PB"  # If size is larger than Terabyte.
 
 # =======================
-# List all drives in the system (like C:\, D:\).
+# List all drives in the system (like C:\, D:\ that already attach to the system,
+# (mounted drive only).
 # =======================
 def list_drives():
     partitions = psutil.disk_partitions(all=False)
