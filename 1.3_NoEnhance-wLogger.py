@@ -15,7 +15,6 @@ def install_requirements():
         # Try import necessary packages
         import psutil
         import matplotlib.pyplot as plt
-        import pandas
     except ImportError:
         # If any import fails -> install from requirements.txt
         requirements_path = os.path.join(os.path.dirname(__file__), "requirements.txt")
