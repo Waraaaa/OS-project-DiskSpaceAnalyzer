@@ -39,10 +39,10 @@ from datetime import datetime
 # =======================
 def bytes_to_readable(size):
     for unit in ['B', 'KB', 'MB', 'GB', 'TB']:
-        if size < 1024:
+        if size < 1024:  # If size is small enough -> show with current unit.
             return f"{size:.2f} {unit}"
         size /= 1024
-    return f"{size:.2f} PB"
+    return f"{size:.2f} PB"  # If size is larger than Terabyte.
 
 # =======================
 # List all drives in the system (like C:\, D:\).
