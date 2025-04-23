@@ -19,13 +19,17 @@ This repository is for a **Disk Space Analyzer** project of **ITCS225: Principle
 
 ## 📖 About
 
-Explain the background of the project.  
+
+
+(Delete this later - Explain the background of the project.  
 Why was it built? What problem does it solve?  
-Any relevant academic or practical context.
+Any relevant academic or practical context.)
 
 <br>
 
 ## ✨ Features
+
+- A
 
 - Feature 1 (this program can do what)
 - Feature 2
@@ -35,7 +39,9 @@ Any relevant academic or practical context.
 
 ## ⚙️ Installation
 
-Step-by-step instructions to get the project running locally.
+(Delete this: 
+Step-by-step instructions to get the project running locally (install).
+Do this after finish the code?)
 
 ```Installation
 # Clone the repository
@@ -50,7 +56,9 @@ pip install -r requirement.txt
 
 ## 🚀 Usage
 
-```Run the main.py
+(Delete this: How to run the program)
+
+```
 python main.py
 ```
 
@@ -68,13 +76,17 @@ python main.py
 └── README.md
 ```
 - `main.py`: Entry point for running the tool
-- etc
+- `reuirement.txt`:
+- `README.md`:
+- `reuirement.txt`:
+- - `a`:
+  - 
 
 <br>
 
 ## 🧪 Examples
 
-output examples, maybe screenshots
+(Delete this: output examples, maybe screenshots)
 
 <br>
 
