@@ -1,6 +1,6 @@
 # OS Project: Disk Space Analyzer
 
-For OS project.
+This repository is for a **Disk Space Analyzer** project of **ITCS225: Principles of Operating System** by **Apes Together Strong** group (section 2).
 
 <br>
 
