@@ -67,20 +67,27 @@ python main.py
 ## 🗂️ Project Structure
 
 ```Structure
-├── data/
-├── src/
-│   ├── module1.py
-│   └── ...
-├── main.py
-├── requirements.txt
+disk_analyzer/
+│
+├── versions/              
+│   ├── __init__.py
+│   ├── base_ver.py            # Default version
+│   ├── threaded_ver.py        # Version with multithreading
+│   └── async_ver.py           # Version using asyncio
+│
+├── utils/
+│   ├── __init__.py
+│   ├── analyzer_helpers.py   # Common helper functions e.g. get_size(), bytes_to_readable()
+│   ├── plotting.py           # For plotting bar charts
+│   └── benchmark.py          # For logging benchmarks to CSV
+│
+├── main.py                # Main entry, lets user select which version to run
+├── requirements.txt       # Collect all python packages that is required
 └── README.md
 ```
-- `main.py`: Entry point for running the tool
-- `reuirement.txt`:
-- `README.md`:
-- `reuirement.txt`:
-- - `a`:
-  - 
+- `__init__.py`: Marks the directory as a Python package.
+- `versions/`: Contains all versions of the disk analyzer program (e.g., base, threaded, async).
+- `utils/`: Contains reusable utility modules shared across different versions.
 
 <br>
 
