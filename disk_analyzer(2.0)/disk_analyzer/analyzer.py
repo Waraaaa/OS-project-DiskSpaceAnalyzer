@@ -75,40 +75,63 @@ def analyzer(start_drive):
 
     old_path = [start_drive]
     path = start_drive
+
     while True:
         print("-" * 55)
         try:
-            items = os.listdir(path)
-            items = [item for item in items if os.path.isdir(os.path.join(path, item))]
+            entries = os.listdir(path)
+            dirs = [d for d in entries if os.path.isdir(os.path.join(path, d))]
         except Exception as e:
             print(f"Error accessing directory: {e}")
-            path = old_path
-            continue
-
-        if len(items) == 0:
-            print("No more directories in this directory (\"exit\" to end program, \"0\" to go back)")
-        else: 
-            for i in range(len(items)):
-                print(f"{i+1}: {items[i]:3}")
-            print("Please insert the number to continue analyze the selected directory (\"exit\" to end program, \"0\" to go back)")
-        number = input()
-        if number == "exit": exit()
-        number = int(number)
-        if number == 0:
-            path = old_path[len(old_path)-1]
-            old_path.pop()
-            nested_directory -= 1
-            if nested_directory == 0:
-                return True
-            else:
+            # if we can't list, go back one level if possible
+            if len(old_path) > 1:
+                path = old_path.pop()
+                nested_directory -= 1
                 continue
-        if number <= len(items):
-            old_path.append(path)
-            path = os.path.join(path, items[int(number)-1])
+            else:
+                sys.exit(1)
+
+        # Show prompt
+        if not dirs:
+            print('No more subdirectories here. ("exit" to end, "0" to go back)')
         else:
-            print("Invalid directory. Please try again (\"exit\" to end program, \"0\" to go back)")
+            for idx, d in enumerate(dirs, start=1):
+                print(f"{idx}: {d}")
+            print('Select a directory number to analyze ("exit" to end, "0" to go back):')
+
+        # Prompt until valid
+        choice = input("> ").strip()
+        if choice.lower() == "exit":
+            sys.exit(0)
+
+        if choice == "0":
+            if nested_directory == 1:
+                # back at first level—restart from root drive
+                return analyzer(start_drive)
+            elif old_path:
+                # pop back one level
+                path = old_path.pop()
+                nested_directory -= 1
+                continue
+            else:
+                # nothing to go back to
+                continue
+
+        # Try parse integer
+        try:
+            num = int(choice)
+        except ValueError:
+            print(f'"{choice}" is not a valid number. Try again.')
             continue
 
+        # Validate range
+        if num < 1 or num > len(dirs):
+            print(f'"{num}" is out of range. Try again.')
+            continue
+
+        # Drill down
+        old_path.append(path)
+        path = os.path.join(path, dirs[num - 1])
         analyze(path)
         nested_directory += 1
 
