@@ -8,7 +8,6 @@ This repository is for a **Disk Space Analyzer** project of **ITCS225: Principle
 
 - [About](#about)
 - [Features](#features)
-- [Installation](#installation)
 - [Usage](#usage)
 - [Project Structure](#project-structure)
 - [Examples](#examples)
@@ -42,26 +41,15 @@ Many users struggle to identify large or unnecessary files, leading to storage i
 
 <br>
 
-## ⚙️ Installation
-
-Step-by-step instructions to get the project running locally (install):
-
-```Installation
-# Clone the repository
-git clone https://github.com/Waraaaa/disk_analyzer(Tae's ver :D).git
-cd disk_analyzer
-
-# Install required packages 
-pip install -r requirement.txt
-```
-
-<br>
-
 ## 🚀 Usage
 
 Run the main entry point:
 
 ```
+# Download the ZIP file of this repository, unzipped it, and change directory to where the main.py file is.
+cd [directory]
+
+# Run the program.
 python main.py
 ```
 
