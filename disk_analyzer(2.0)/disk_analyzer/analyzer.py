@@ -76,7 +76,7 @@ def analyze(base_path="/"):
     # Show result in chart and text
     show_analysis(disk_data, total, used, free)
     plot(disk_data, base_path)
-    log_benchmark(base_path, item_count, total_size, elapsed_time, version="base")
+    log_benchmark(base_path, item_count, elapsed_time, version="base")
 
 
 #======================================================
