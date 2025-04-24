@@ -99,7 +99,7 @@ def analyzer(start_drive):
             old_path.pop()
             nested_directory -= 1
             if nested_directory == 0:
-                analyzer()
+                analyzer(path)
                 break
             else:
                 continue
