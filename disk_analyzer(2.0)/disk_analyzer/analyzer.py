@@ -118,7 +118,7 @@ def analyzer(start_drive):
 
         if choice == "0":
             if nested_directory == 1:
-                return analyzer(start_drive)  # Go back to root
+                return True  # Restart Program
             elif old_path:
                 path = old_path.pop()  # Go back one level
                 nested_directory -= 1
