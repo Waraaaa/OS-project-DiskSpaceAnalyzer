@@ -90,12 +90,12 @@ Result page <br>
 
 <br>
 The result bar chart <br>
-![image](https://github.com/user-attachments/assets/15e11065-6df6-47ac-88da-ff56762bbab4)
+![image2](https://github.com/user-attachments/assets/15e11065-6df6-47ac-88da-ff56762bbab4) 
 
 <br>
 Benchmark log <br>
-![image](https://github.com/user-attachments/assets/f7b2dea2-057f-4c91-b49d-422e6145c94f)<br>
-![image](https://github.com/user-attachments/assets/a16d443b-cf23-4846-8cd2-b0dff33ac8cf)
+![image3](https://github.com/user-attachments/assets/f7b2dea2-057f-4c91-b49d-422e6145c94f) <br>
+![image4](https://github.com/user-attachments/assets/a16d443b-cf23-4846-8cd2-b0dff33ac8cf) 
 
 
 <br>
