@@ -19,21 +19,26 @@ This repository is for a **Disk Space Analyzer** project of **ITCS225: Principle
 
 ## 📖 About
 
-
-
-(Delete this later - Explain the background of the project.  
-Why was it built? What problem does it solve?  
-Any relevant academic or practical context.)
+Many users struggle to identify large or unnecessary files, leading to storage inefficiencies. A Disk Space Analyzer provides a clear overview of file distribution, helping users decisively free up space effectively.
 
 <br>
 
 ## ✨ Features
 
-- A
-
-- Feature 1 (this program can do what)
-- Feature 2
-- Any cool or unique implementations
+- Disk Usage Analysis: Analyzes disk space usage across all available drives or selected directories while also provides detailed information about the disk's total, used, and free space.
+- Recursive Directory Scanning: Recursively scans directories and sum up the sizes of all files and folders.
+- Detailed File Size Reporting: Sizes are presented in human-readable formats (e.g., KB, MB, GB) for easy understanding.
+- Visualization: Display the results in paginated format to handle large directories, making it easier to navigate through results, which will also be visualized in bar charts, with horizontal bars representing file sizes.
+- Benchmark Logging: logs detailed performance benchmarks and logs are saved in a CSV file:
+  - Time taken to scan the directory
+  - Total number of files processed
+  - Aggregate size of files processed
+  - CPU usage
+  - memory usage
+  - disk I/O statistics
+  - process-specific I/O
+- Efficient Resource Management: Optimized algorithms to minimize resource usage during the scan.
+- Modular Design: Designed with a modular structure where utilities are separated into different modules for easier maintenance and extensibility.
 
 <br>
 
