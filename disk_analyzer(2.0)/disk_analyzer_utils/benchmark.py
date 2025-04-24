@@ -1,8 +1,12 @@
+#======================================================
+# Imports required for logging system and process metrics
 import os
 import csv
 from datetime import datetime
 import psutil
 
+#======================================================
+# Function to log performance metrics into a CSV file
 def log_benchmark(
     path,              # Path that was scanned
     item_count,        # Number of files/folders processed
@@ -11,19 +15,12 @@ def log_benchmark(
     filename="benchmark_log.csv"  # CSV file to append results to
 ):
     """
-    Append a detailed performance row to a CSV with metrics including:
-      - Timestamp
-      - Path scanned
-      - Item count and total size
-      - Elapsed time
-      - CPU and memory usage
-      - System-wide disk I/O
-      - Process-specific disk I/O
-      - Thread count
-      - Context-switch counts
+    Logs a detailed performance benchmark into a CSV file.
+    Includes system and process stats at the time of logging.
     """
 
-    # 1) Define header columns (only written if the file is new)
+    #======================================================
+    # 1) Define the CSV header (only used when creating a new file)
     header = [
         "timestamp", "path", "item_count", "total_size_bytes",
         "elapsed_time_sec", "cpu_percent", "mem_percent",
@@ -32,26 +29,30 @@ def log_benchmark(
         "num_threads", "ctx_switches_vol", "ctx_switches_invol"
     ]
 
-    # 2) Sample system-wide CPU and memory usage
-    cpu_pct = psutil.cpu_percent(interval=None)         # CPU usage since last call
-    mem_pct = psutil.virtual_memory().percent           # % of physical RAM used
+    #======================================================
+    # 2) Collect system-wide CPU and memory usage
+    cpu_pct = psutil.cpu_percent(interval=None)         # Percent CPU usage
+    mem_pct = psutil.virtual_memory().percent           # Percent RAM used
 
-    # 3) Sample system-wide disk I/O counters
-    disk_io = psutil.disk_io_counters()                 # Cumulative since boot
-    disk_read_bytes = disk_io.read_bytes                # Total bytes read
-    disk_write_bytes = disk_io.write_bytes              # Total bytes written
+    #======================================================
+    # 3) Get global disk I/O stats (since system start)
+    disk_io = psutil.disk_io_counters()
+    disk_read_bytes = disk_io.read_bytes
+    disk_write_bytes = disk_io.write_bytes
 
-    # 4) Sample this process’s I/O, thread count, and context switches
-    proc = psutil.Process()                             # Current process handle
-    io = proc.io_counters()                             # I/O specific to this process
-    proc_read_bytes = io.read_bytes                     # Bytes this process read
-    proc_write_bytes = io.write_bytes                   # Bytes this process wrote
-    num_threads = proc.num_threads()                    # Thread count at end of run
-    ctx = proc.num_ctx_switches()                       # Namedtuple of voluntary/involuntary
-    ctx_vol = ctx.voluntary                             # Voluntary context switches
-    ctx_invol = ctx.involuntary                         # Involuntary context switches
+    #======================================================
+    # 4) Get stats specific to the current Python process
+    proc = psutil.Process()
+    io = proc.io_counters()
+    proc_read_bytes = io.read_bytes
+    proc_write_bytes = io.write_bytes
+    num_threads = proc.num_threads()
+    ctx = proc.num_ctx_switches()
+    ctx_vol = ctx.voluntary
+    ctx_invol = ctx.involuntary
 
-    # 5) Build the CSV row
+    #======================================================
+    # 5) Prepare the row of data to write to CSV
     row = [
         datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         path,
@@ -69,11 +70,11 @@ def log_benchmark(
         ctx_invol
     ]
 
-    # 6) Append to CSV, writing header first if needed
+    #======================================================
+    # 6) Append the row to the CSV file (add header if new file)
     write_header = not os.path.exists(filename)
     with open(filename, mode="a", newline="") as f:
         writer = csv.writer(f)
         if write_header:
             writer.writerow(header)
         writer.writerow(row)
-
