@@ -109,7 +109,7 @@ async def analyzer(start_drive):
             old_path.pop()
             nested_directory -= 1
             if nested_directory == 0:
-                await analyzer()
+                await analyzer(path)
                 break
             else:
                 continue
