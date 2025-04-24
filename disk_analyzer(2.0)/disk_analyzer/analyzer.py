@@ -7,46 +7,54 @@ from disk_analyzer_utils.plotting import plot
 from disk_analyzer_utils.benchmark import log_benchmark
 from disk_analyzer_utils.utils import show_analysis
 
+#======================================================
+# Get total size of all files in a folder (and subfolders)
 def get_size(start_path):
     total_size = 0
-    for dirpath, _, filenames in os.walk(start_path, onerror=lambda e: None):  # Walk through subdirectories
+    for dirpath, _, filenames in os.walk(start_path, onerror=lambda e: None):  # Go through folders
         for f in filenames:
             try:
                 fp = os.path.join(dirpath, f)
-                if not os.path.islink(fp):  # For skipping symbolic links.
-                    total_size += os.path.getsize(fp)
+                if not os.path.islink(fp):  # Skip shortcut files
+                    total_size += os.path.getsize(fp)  # Add file size
             except Exception:
-                pass  # Skip those files that raise errors, like permission denied, etc.
+                pass  # Ignore errors like no permission
     return total_size
 
-
+#======================================================
+# Analyze size of items in a given folder
 def analyze(base_path="/"):
     print(f"Analyzing: {base_path}")
     start_time = time.time()
 
-    total, used, free = shutil.disk_usage(base_path)
-    scanned = set()  # To avoid re-scanning symbolic links or dirs that we already visit.
-    disk_data = []  # Stores size data for each directory.
+    total, used, free = shutil.disk_usage(base_path)  # Get disk space info
+    scanned = set()  # Remember scanned paths
+    disk_data = []  # Store results here
     item_count = 0
     total_size_collected = 0
 
+    #======================================================
+    # Check each item in the folder
     for item in os.listdir(base_path):
         item_path = os.path.join(base_path, item)
         try:
             real_path = os.path.realpath(item_path)
             if real_path in scanned:
-                continue  # Skip if this path is already scanned.
+                continue  # Already checked
             scanned.add(real_path)
 
-            # Get size depending on whether it's a file or folder.
+            #======================================================
+            # Get size of folder or file
             if os.path.isdir(item_path):
                 size = get_size(item_path)
             elif os.path.isfile(item_path):
                 size = os.path.getsize(item_path)
             else:
-                continue  # Will continue if not a file or directory.
+                continue  # Not file or folder
 
-            SKIP_EXTENSIONS = [".tmp"]  # Ignore temporary files
+            #======================================================
+            # Skip temp files
+            SKIP_EXTENSIONS = [".tmp"]
             _, ext = os.path.splitext(item)
             if ext.lower() in SKIP_EXTENSIONS:
                 continue
@@ -64,14 +72,18 @@ def analyze(base_path="/"):
     process = psutil.Process(os.getpid())
     print(f"Memory used: {process.memory_info().rss / 1024 ** 2:.2f} MB")
 
+    #======================================================
+    # Show result in chart and text
     show_analysis(disk_data, total, used, free)
     plot(disk_data, base_path)
     log_benchmark(base_path, item_count, total_size, elapsed_time, version="base")
 
 
+#======================================================
+# Main loop for choosing folders and analyzing them
 def analyzer(start_drive):
     nested_directory = 0
-    analyze(start_drive)
+    analyze(start_drive)  # Start with given folder
     nested_directory += 1
 
     old_path = [start_drive]
@@ -81,10 +93,9 @@ def analyzer(start_drive):
         print("-" * 55)
         try:
             entries = os.listdir(path)
-            dirs = [d for d in entries if os.path.isdir(os.path.join(path, d))]
+            dirs = [d for d in entries if os.path.isdir(os.path.join(path, d))]  # Only show folders
         except Exception as e:
             print(f"Error accessing directory: {e}")
-            # if we can't list, go back one level if possible
             if len(old_path) > 1:
                 path = old_path.pop()
                 nested_directory -= 1
@@ -92,7 +103,8 @@ def analyzer(start_drive):
             else:
                 sys.exit(1)
 
-        # Show prompt
+        #======================================================
+        # Show menu
         if not dirs:
             print('No more subdirectories here. ("exit" to end, "0" to go back)')
         else:
@@ -100,45 +112,33 @@ def analyzer(start_drive):
                 print(f"{idx}: {d}")
             print('Select a directory number to analyze ("exit" to end, "0" to go back):')
 
-        # Prompt until valid
         choice = input("> ").strip()
         if choice.lower() == "exit":
             sys.exit(0)
 
         if choice == "0":
             if nested_directory == 1:
-                # back at first level—restart from root drive
-                return analyzer(start_drive)
+                return analyzer(start_drive)  # Go back to root
             elif old_path:
-                # pop back one level
-                path = old_path.pop()
+                path = old_path.pop()  # Go back one level
                 nested_directory -= 1
                 continue
             else:
-                # nothing to go back to
                 continue
 
-        # Try parse integer
         try:
             num = int(choice)
         except ValueError:
             print(f'"{choice}" is not a valid number. Try again.')
             continue
 
-        # Validate range
         if num < 1 or num > len(dirs):
             print(f'"{num}" is out of range. Try again.')
             continue
 
-        # Drill down
+        #======================================================
+        # Go into selected folder
         old_path.append(path)
         path = os.path.join(path, dirs[num - 1])
         analyze(path)
         nested_directory += 1
-
-    
-
-
-
-
-
