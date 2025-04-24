@@ -58,26 +58,26 @@ python main.py
 ## 🗂️ Project Structure
 
 ```Structure
-disk_analyzer/
+disk_analyzer(2.0)/
 │
-├── disk_analyze/
+├── disk_analyzer/
 │   ├── __init__.py
-│   ├── analyzer.py           # Common helper functions e.g. get_size(), bytes_to_readable()
+│   ├── analyzer.py           # Common helper functions 
 ├── disk_analyzer_optimize/
 │   ├── __init__.py
-│   ├── analyzer.py           # Common helper functions e.g. get_size(), bytes_to_readable()
+│   ├── analyzer.py           # Common helper functions
 ├── disk_analyzer_utils/
 │   ├── __init__.py
 │   ├── plotting.py           # For plotting bar charts
 │   └── benchmark.py          # For logging benchmarks to CSV
-│   └── utils.py
+│   └── utils.py              # For size format conversion and show the storage analysis
 ├── install.py             # Installation script for auto-installing dependencies
 ├── main.py                # Main entry, lets user select which version to run
 ├── requirements.txt       # Collect all python packages that is required
 └── README.md
 ```
 - `__init__.py`: Marks the directory as a Python package.
-- `disk_analyze`: Contains unoptimized version of the disk analyzer program.
+- `disk_analyzer`: Contains unoptimized version of the disk analyzer program.
 - `disk_analyzer_optimize/`: Contains optimized version of the disk analyzer program with multithreads and Asyncio.
 - `disk_analyzer_utils/`: Contains benchmark and plotting.
 
