@@ -77,7 +77,7 @@ async def analyze(base_path="/"):
 
     show_analysis(disk_data, total, used, free)
     plot(disk_data, base_path)
-    log_benchmark(base_path, item_count, total_size, elapsed_time)
+    log_benchmark(base_path, item_count, total_size, elapsed_time, version="optimized")
 
 async def analyzer(start_drive):
     nested_directory = 0
