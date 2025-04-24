@@ -35,7 +35,7 @@ async def scan_item(path):
         else:
             return None
 
-        return {"path": path, "size": size}
+        return {"path": os.path.basename(path), "size": size}
     except Exception as e:
         print(f"{path:<30} ERROR: {e}")
         return None
