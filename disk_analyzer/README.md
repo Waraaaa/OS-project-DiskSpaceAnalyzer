@@ -48,10 +48,10 @@ Step-by-step instructions to get the project running locally (install):
 
 ```Installation
 # Clone the repository
-git clone https://github.com/Waraaaa/apes-goldf-predict.git
-cd apes-goldf-predict
+git clone https://github.com/yourusername/disk_analyzer.git
+cd disk_analyzer
 
-# Install required packages (if we have one, put the name in requirement.txt)
+# Install required packages 
 pip install -r requirement.txt
 ```
 
@@ -59,7 +59,7 @@ pip install -r requirement.txt
 
 ## 🚀 Usage
 
-Starts the program by:
+Run the main entry point:
 
 ```
 python main.py
