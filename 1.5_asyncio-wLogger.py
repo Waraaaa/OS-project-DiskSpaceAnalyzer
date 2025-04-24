@@ -4,6 +4,10 @@ import sys
 # Auto-install dependencies if missing
 def install_requirements():
     subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
+#==============================#
+# Installs required Python packages listed in "requirements.txt" if they are missing.
+# It uses subprocess to run the pip command to install dependencies.
+#==============================#
 
 try:
     import os
@@ -27,6 +31,10 @@ except ImportError:
     import csv
     import asyncio
     from datetime import datetime
+#==============================#
+# Attempts to import required modules. If any module is missing, it installs the required packages
+# and then re-imports them.
+#==============================#
 
 def bytes_to_readable(size):
     for unit in ['B', 'KB', 'MB', 'GB', 'TB']:
@@ -34,10 +42,18 @@ def bytes_to_readable(size):
             return f"{size:.2f} {unit}"
         size /= 1024
     return f"{size:.2f} PB"
+#==============================#
+# Converts bytes into a human-readable format (B, KB, MB, GB, etc.).
+# Takes a size (in bytes) and returns a string with the appropriate unit.
+#==============================#
 
 def list_drives():
     partitions = psutil.disk_partitions(all=False)
     return [p.device for p in partitions]
+#==============================#
+# Lists all available disk drives (partitions) on the system.
+# Uses psutil to retrieve partition information.
+#==============================#
 
 def log_benchmark(path, item_count, total_size, elapsed_time, filename="benchmark_log.csv"):
     header = ["timestamp", "path", "item_count", "total_size_bytes", "elapsed_time_sec"]
@@ -54,6 +70,11 @@ def log_benchmark(path, item_count, total_size, elapsed_time, filename="benchmar
         if write_header:
             writer.writerow(header)
         writer.writerow(log_row)
+#==============================#
+# Logs benchmarking information into a CSV file.
+# It logs timestamp, path, number of items processed, total size of items, and elapsed time.
+# If the file doesn't exist, it writes a header.
+#==============================#
 
 def show_analysis(disk_data, total, used, free):
     print(f"\nTotal disk size: {bytes_to_readable(total)}")
@@ -64,6 +85,10 @@ def show_analysis(disk_data, total, used, free):
     for data in disk_data:
         percent_used = (data["size"] / used * 100) if used > 0 else 0
         print(f"{data['path']:<30} {bytes_to_readable(data['size']):>10} {percent_used:>11.2f}%")
+#==============================#
+# Displays the disk usage analysis in a readable format.
+# Shows total disk size, used space, free space, and detailed information for each directory.
+#==============================#
 
 def plot(disk_data, base_path):
     disk_data = sorted(disk_data, key=lambda x: x["size"], reverse=True)
@@ -83,6 +108,11 @@ def plot(disk_data, base_path):
     plt.tight_layout()
     plt.grid(axis='x', linestyle='--', alpha=0.6)
     plt.show(block=False)
+#==============================#
+# Creates a bar chart to visualize disk usage by directory.
+# The chart is horizontally oriented with directories on the y-axis and sizes on the x-axis.
+# Adds readable labels for the sizes and customizes the plot for better visualization.
+#==============================#
 
 def sync_get_size(start_path):
     total_size = 0
@@ -95,9 +125,18 @@ def sync_get_size(start_path):
             except Exception:
                 pass
     return total_size
+#==============================#
+# Recursively calculates the total size of a directory.
+# It walks through all files and directories within the given path and adds their sizes.
+# Skips symbolic links.
+#==============================#
 
 async def async_get_size(path):
     return await asyncio.to_thread(sync_get_size, path)
+#==============================#
+# Asynchronously calculates the total size of a directory.
+# Uses asyncio's `to_thread` to offload the synchronous `sync_get_size` function to a separate thread.
+#==============================#
 
 async def scan_item(item_path):
     try:
@@ -117,6 +156,11 @@ async def scan_item(item_path):
     except Exception as e:
         print(f"{item_path:<30} ERROR: {e}")
         return None
+#==============================#
+# Scans a single file or directory to calculate its size.
+# It skips files with a ".tmp" extension and handles both directories and files.
+# If there's an error while scanning, it logs the error and returns `None`.
+#==============================#
 
 async def analyze(base_path="/"):
     print(f"Analyzing: {base_path}")
@@ -157,6 +201,11 @@ async def analyze(base_path="/"):
     show_analysis(disk_data, total, used, free)
     plot(disk_data, base_path)
     log_benchmark(base_path, item_count, total_size_collected, elapsed_time)
+#==============================#
+# Analyzes a given directory by scanning its contents.
+# It calculates total disk usage, scans all items, and logs results.
+# Then it displays analysis results, generates a plot, and logs the benchmarking info.
+#==============================#
 
 def input_case(drives):
     print("This program found more than 1 drive.")
@@ -168,6 +217,11 @@ def input_case(drives):
             return drives[int(number)-1]
         else:
             print("Invalid drive. Please try again (\"exit\" to end program)")
+#==============================#
+# Prompts the user to select a drive if more than one drive is available.
+# It checks user input and returns the selected drive.
+# If the input is invalid, it asks the user to try again.
+#==============================#
 
 async def main():
     drives = list_drives()
@@ -204,6 +258,15 @@ async def main():
             continue
 
         await analyze(path)
+#==============================#
+# Main function to start the disk analysis process.
+# It lists available drives, prompts the user to select a drive, and then performs the analysis.
+# It also allows the user to navigate through directories for further analysis.
+#==============================#
 
 if __name__ == "__main__":
     asyncio.run(main())
+#==============================#
+# Executes the `main()` function using asyncio.
+# This starts the program and runs the analysis process.
+#==============================#
