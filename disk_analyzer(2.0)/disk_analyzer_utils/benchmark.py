@@ -12,6 +12,7 @@ def log_benchmark(
     item_count,        # Number of files/folders processed
     total_size,        # Aggregate size in bytes of all processed items
     elapsed_time,      # Time taken (in seconds) to complete the scan
+    version,           # "base" or "optimized"
     filename="benchmark_log.csv"  # CSV file to append results to
 ):
     """
@@ -22,7 +23,7 @@ def log_benchmark(
     #======================================================
     # 1) Define the CSV header (only used when creating a new file)
     header = [
-        "timestamp", "path", "item_count", "total_size_bytes",
+        "version", "timestamp", "path", "item_count", "total_size_bytes",
         "elapsed_time_sec", "cpu_percent", "mem_percent",
         "disk_read_bytes", "disk_write_bytes",
         "proc_read_bytes", "proc_write_bytes",
@@ -54,6 +55,7 @@ def log_benchmark(
     #======================================================
     # 5) Prepare the row of data to write to CSV
     row = [
+        version,
         datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         path,
         item_count,
