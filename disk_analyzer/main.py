@@ -1,5 +1,7 @@
 import sys
-from versions import base_ver, threaded_ver, async_ver
+import install
+from disk_analyze_utils import analyzer
+from disk_analyze_utils_optimize import analyzer
 from utils.analyzer_helpers import list_drives
 
 def select_drive():
@@ -20,11 +22,9 @@ def main():
     choice = input("> ")
     path = select_drive()
     if choice == "1":
-        base_ver.analyze(path)
+        disk_analyze_utils.analyzer(path)
     elif choice == "2":
-        threaded_ver.analyze(path)
-    elif choice == "3":
-        async_ver.run(path)
+        disk_analyze_utils_optimize.analyzer(path)
     else:
         print("Invalid selection")
 
