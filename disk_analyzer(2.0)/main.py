@@ -1,6 +1,5 @@
 import asyncio
 import psutil
-import install
 from disk_analyzer import analyzer as base_analyzer
 from disk_analyzer_optimize import analyzer as optimized_analyzer
 
@@ -32,6 +31,7 @@ def input_case(drives):
 
 
 async def main():
+    restart = False
     drives = list_drives()
     for i, d in enumerate(drives):
         print(f"{i+1}: {d}")
@@ -42,11 +42,13 @@ async def main():
     print("2) Optimized (Threaded & Asyncio)")
     choice = input("> ")
     if choice == "1":
-        base_analyzer.analyzer(path)  # assuming this is a normal function
+        restart = base_analyzer.analyzer(path)  # assuming this is a normal function
     elif choice == "2":
-        await optimized_analyzer.analyzer(path)  # this is async
+        restart = await optimized_analyzer.analyzer(path)  # this is async
     else:
         print("Invalid selection")
+    
+    if restart: asyncio.run(main())
 
 if __name__ == "__main__":
     asyncio.run(main())
