@@ -1,5 +1,6 @@
 import asyncio
 import psutil
+import install
 from disk_analyzer import analyzer as base_analyzer
 from disk_analyzer_optimize import analyzer as optimized_analyzer
 
