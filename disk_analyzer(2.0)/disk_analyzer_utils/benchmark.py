@@ -18,6 +18,18 @@ def log_benchmark(
     """
     Logs a detailed performance benchmark into a CSV file.
     Includes system and process stats at the time of logging.
+    
+    Metrics:
+      - Program version ("base" vs "optimized")
+      - Timestamp
+      - Path scanned
+      - Item count and total size
+      - Elapsed time
+      - CPU and memory usage
+      - System-wide disk I/O
+      - Process-specific disk I/O
+      - Thread count
+      - Context-switch counts
     """
 
     #======================================================
