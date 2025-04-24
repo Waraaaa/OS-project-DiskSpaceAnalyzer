@@ -2,7 +2,6 @@ import sys
 import install
 from disk_analyze_utils import analyzer
 from disk_analyze_utils_optimize import analyzer
-from utils.analyzer_helpers import list_drives
 
 def select_drive():
     drives = list_drives()
