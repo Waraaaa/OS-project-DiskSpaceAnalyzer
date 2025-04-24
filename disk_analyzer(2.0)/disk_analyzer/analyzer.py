@@ -99,8 +99,7 @@ def analyzer(start_drive):
             old_path.pop()
             nested_directory -= 1
             if nested_directory == 0:
-                analyzer(path)
-                break
+                return True
             else:
                 continue
         if number <= len(items):
@@ -114,4 +113,8 @@ def analyzer(start_drive):
         nested_directory += 1
 
     
+
+
+
+
 
