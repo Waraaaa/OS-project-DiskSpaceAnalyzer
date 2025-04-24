@@ -48,7 +48,7 @@ async def main():
     else:
         print("Invalid selection")
     
-    if restart: asyncio.run(main())
+    if restart: await main()
 
 if __name__ == "__main__":
     asyncio.run(main())
