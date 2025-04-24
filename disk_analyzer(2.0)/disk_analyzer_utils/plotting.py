@@ -1,45 +1,58 @@
+#======================================================
+# Imports for plotting
 import math
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from disk_analyzer_utils.utils import bytes_to_readable
 
+#======================================================
+# Function to plot disk usage data in paginated horizontal bar charts
 def plot(data, base_path, page_size=20):
 
-    # 1) Sort descending by size so the largest items appear first
+    #======================================================
+    # 1) Sort data by size in descending order
     data_sorted = sorted(data, key=lambda x: x["size"], reverse=True)
 
-    # 2) Compute how many pages we’ll need
+    #======================================================
+    # 2) Calculate how many pages are needed based on the page size
     total_pages = math.ceil(len(data_sorted) / page_size)
 
-    # 3) Loop over each page
+    #======================================================
+    # 3) Loop through each page and plot a subset of the data
     for page in range(total_pages):
-        # Determine slice of data for this page
+        # Determine the start and end indices for the current page
         start = page * page_size
         end = start + page_size
         chunk = data_sorted[start:end]
 
-        # Extract paths and sizes for plotting
+        #======================================================
+        # 4) Prepare data for plotting: paths and corresponding sizes
         paths = [item["path"] for item in chunk]
         sizes = [item["size"] for item in chunk]
 
-        # 4) Dynamically size the figure based on number of items
+        #======================================================
+        # 5) Set dynamic figure height depending on how many bars are shown
         fig_height = max(5, 0.4 * len(chunk))
         fig, ax = plt.subplots(figsize=(12, fig_height))
 
-        # 5) Create horizontal bar chart
+        #======================================================
+        # 6) Plot a horizontal bar chart with the largest items on top
         bars = ax.barh(paths, sizes, color='skyblue')
-        ax.invert_yaxis()  # Largest bar at top
+        ax.invert_yaxis()
 
-        # 6) Label axes and title (include page indicator)
+        #======================================================
+        # 7) Add labels and a title showing the current page
         ax.set_xlabel("Size")
         ax.set_title(f"Disk Usage ({base_path}) — Page {page + 1}/{total_pages}")
 
-        # 7) Format X-axis ticks to human-readable sizes
+        #======================================================
+        # 8) Format the x-axis to show human-readable sizes (e.g., MB, GB)
         ax.xaxis.set_major_formatter(
             ticker.FuncFormatter(lambda x, _: bytes_to_readable(x))
         )
 
-        # 8) Annotate each bar with its size label
+        #======================================================
+        # 9) Annotate each bar with the exact size in readable format
         for bar, size in zip(bars, sizes):
             ax.text(
                 bar.get_width() + bar.get_width() * 0.01,
@@ -48,15 +61,16 @@ def plot(data, base_path, page_size=20):
                 va='center'
             )
 
-        # 9) Improve layout and add grid lines
+        #======================================================
+        # 10) Tweak layout and add subtle grid lines for better readability
         plt.tight_layout()
         plt.grid(axis='x', linestyle='--', alpha=0.6)
 
-        # 10) Display non-blocking so code can continue
+        #======================================================
+        # 11) Display the chart; if multiple pages, wait for user input
         plt.show(block=False)
-
-        # 11) Pause between pages, closing intermediate figures
         print(f"\nShowing page {page + 1} of {total_pages}.")
+
         if page < total_pages - 1:
             input("Press Enter to show next page...")
             plt.close(fig)
