@@ -2,13 +2,12 @@ import subprocess
 import sys
 import os
 import shutil
-import time
-import csv
-import asyncio
-from datetime import datetime
 import psutil
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+import time
+import csv
+from datetime import datetime
 
 def bytes_to_readable(size):
     for unit in ['B', 'KB', 'MB', 'GB', 'TB']:
@@ -16,10 +15,6 @@ def bytes_to_readable(size):
             return f"{size:.2f} {unit}"
         size /= 1024
     return f"{size:.2f} PB"
-
-def list_drives():
-    partitions = psutil.disk_partitions(all=False)
-    return [p.device for p in partitions]
 
 def show_analysis(disk_data, total, used, free):
     print(f"\nTotal disk size: {bytes_to_readable(total)}")
