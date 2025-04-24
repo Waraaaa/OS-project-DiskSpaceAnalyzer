@@ -44,16 +44,14 @@ Many users struggle to identify large or unnecessary files, leading to storage i
 
 ## ⚙️ Installation
 
-(Delete this: 
-Step-by-step instructions to get the project running locally (install).
-Do this after finish the code?)
+Step-by-step instructions to get the project running locally (install):
 
 ```Installation
 # Clone the repository
-git clone https://github.com/Waraaaa/apes-goldf-predict.git
-cd apes-goldf-predict
+git clone https://github.com/Waraaaa/disk_analyzer(Tae's ver :D).git
+cd disk_analyzer
 
-# Install required packages (if we have one, put the name in requirement.txt)
+# Install required packages 
 pip install -r requirement.txt
 ```
 
@@ -61,7 +59,7 @@ pip install -r requirement.txt
 
 ## 🚀 Usage
 
-(Delete this: How to run the program)
+Run the main entry point:
 
 ```
 python main.py
@@ -74,25 +72,26 @@ python main.py
 ```Structure
 disk_analyzer/
 │
-├── versions/              
+├── disk_analyze/
 │   ├── __init__.py
-│   ├── base_ver.py            # Default version
-│   ├── threaded_ver.py        # Version with multithreading
-│   └── async_ver.py           # Version using asyncio
-│
-├── utils/
+│   ├── analyzer.py           # Common helper functions e.g. get_size(), bytes_to_readable()
+├── disk_analyzer_optimize/
 │   ├── __init__.py
-│   ├── analyzer_helpers.py   # Common helper functions e.g. get_size(), bytes_to_readable()
+│   ├── analyzer.py           # Common helper functions e.g. get_size(), bytes_to_readable()
+├── disk_analyzer_utils/
+│   ├── __init__.py
 │   ├── plotting.py           # For plotting bar charts
 │   └── benchmark.py          # For logging benchmarks to CSV
-│
+│   └── utils.py
+├── install.py             # Installation script for auto-installing dependencies
 ├── main.py                # Main entry, lets user select which version to run
 ├── requirements.txt       # Collect all python packages that is required
 └── README.md
 ```
 - `__init__.py`: Marks the directory as a Python package.
-- `versions/`: Contains all versions of the disk analyzer program (e.g., base, threaded, async).
-- `utils/`: Contains reusable utility modules shared across different versions.
+- `disk_analyze`: Contains unoptimized version of the disk analyzer program.
+- `disk_analyzer_optimize/`: Contains optimized version of the disk analyzer program with multithreads and Asyncio.
+- `disk_analyzer_utils/`: Contains benchmark and plotting.
 
 <br>
 
