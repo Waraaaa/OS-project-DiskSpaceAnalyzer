@@ -1,6 +1,7 @@
 import os
 import shutil
 import time
+import psutil
 from disk_analyzer_utils.plotting import plot
 from disk_analyzer_utils.benchmark import log_benchmark
 from disk_analyzer_utils.utils import show_analysis
@@ -59,6 +60,8 @@ def analyze(base_path="/"):
     end_time = time.time()
     elapsed_time = end_time - start_time
     print(f"Analyze time: {elapsed_time} s.")
+    process = psutil.Process(os.getpid())
+    print(f"Memory used: {process.memory_info().rss / 1024 ** 2:.2f} MB")
 
     show_analysis(disk_data, total, used, free)
     plot(disk_data, base_path)
@@ -111,8 +114,4 @@ def analyzer(start_drive):
         nested_directory += 1
 
     
-
-
-
-
 
