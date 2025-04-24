@@ -85,7 +85,18 @@ disk_analyzer(2.0)/
 
 ## 🧪 Examples
 
-(Delete this: output examples, maybe screenshots)
+Result page
+![image](https://github.com/user-attachments/assets/6a23c8a5-4bdb-4a39-b4eb-90c65806a57d)
+
+<br>
+The result bar chart
+![image](https://github.com/user-attachments/assets/15e11065-6df6-47ac-88da-ff56762bbab4)
+
+<br>
+Benchmark log
+![image](https://github.com/user-attachments/assets/f7b2dea2-057f-4c91-b49d-422e6145c94f)
+![image](https://github.com/user-attachments/assets/a16d443b-cf23-4846-8cd2-b0dff33ac8cf)
+
 
 <br>
 
