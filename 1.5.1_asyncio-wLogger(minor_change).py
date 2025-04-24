@@ -5,29 +5,9 @@ import sys
 def install_requirements():
     subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
 
-try:
-    import os
-    import shutil
-    import psutil
-    import matplotlib.pyplot as plt
-    import matplotlib.ticker as ticker
-    import time
-    import csv
-    import asyncio
-    from datetime import datetime
-except ImportError:
-    print("Installing required packages...")
-    install_requirements()
-    import os
-    import shutil
-    import psutil
-    import matplotlib.pyplot as plt
-    import matplotlib.ticker as ticker
-    import time
-    import csv
-    import asyncio
-    from datetime import datetime
+#==============================#
 
+# Function to convert bytes to a human-readable size format (e.g., KB, MB, GB)
 def bytes_to_readable(size):
     for unit in ['B', 'KB', 'MB', 'GB', 'TB']:
         if size < 1024:
@@ -35,10 +15,16 @@ def bytes_to_readable(size):
         size /= 1024
     return f"{size:.2f} PB"
 
+#==============================#
+
+# Function to list all drives in the system
 def list_drives():
     partitions = psutil.disk_partitions(all=False)
     return [p.device for p in partitions]
 
+#==============================#
+
+# Function to log the benchmarking results to a CSV file
 def log_benchmark(path, item_count, total_size, elapsed_time, filename="benchmark_log.csv"):
     header = ["timestamp", "path", "item_count", "total_size_bytes", "elapsed_time_sec"]
     log_row = [
@@ -55,6 +41,9 @@ def log_benchmark(path, item_count, total_size, elapsed_time, filename="benchmar
             writer.writerow(header)
         writer.writerow(log_row)
 
+#==============================#
+
+# Function to display the disk analysis results in the terminal
 def show_analysis(disk_data, total, used, free):
     print(f"\nTotal disk size: {bytes_to_readable(total)}")
     print(f"Used: {bytes_to_readable(used)}")
@@ -65,6 +54,9 @@ def show_analysis(disk_data, total, used, free):
         percent_used = (data["size"] / used * 100) if used > 0 else 0
         print(f"{data['path']:<30} {bytes_to_readable(data['size']):>10} {percent_used:>11.2f}%")
 
+#==============================#
+
+# Function to plot disk usage data
 def plot(disk_data, base_path):
     disk_data = sorted(disk_data, key=lambda x: x["size"], reverse=True)
     paths = [item["path"] for item in disk_data]
@@ -84,6 +76,9 @@ def plot(disk_data, base_path):
     plt.grid(axis='x', linestyle='--', alpha=0.6)
     plt.show(block=False)
 
+#==============================#
+
+# Function to plot paginated disk usage data (splits data into pages)
 def plot_paginated(data, base_path, page_size=20):
     import math
 
@@ -123,6 +118,9 @@ def plot_paginated(data, base_path, page_size=20):
         else:
             print("Last page. Close the plot window manually to finish.")
 
+#==============================#
+
+# Function to synchronously calculate the total size of files in a directory
 def sync_get_size(start_path):
     total_size = 0
     for dirpath, _, filenames in os.walk(start_path, onerror=lambda e: None):
@@ -135,9 +133,15 @@ def sync_get_size(start_path):
                 pass
     return total_size
 
+#==============================#
+
+# Async function to calculate the total size of files in a directory
 async def async_get_size(path):
     return await asyncio.to_thread(sync_get_size, path)
 
+#==============================#
+
+# Async function to scan an item (file or directory) and get its size
 async def scan_item(item_path):
     try:
         SKIP_EXTENSIONS = [".tmp"]
@@ -157,6 +161,9 @@ async def scan_item(item_path):
         print(f"{item_path:<30} ERROR: {e}")
         return None
 
+#==============================#
+
+# Async function to analyze a specific directory and its disk usage
 async def analyze(base_path="/"):
     print(f"Analyzing: {base_path}")
     start_time = time.time()
@@ -197,6 +204,9 @@ async def analyze(base_path="/"):
     plot_paginated(disk_data, base_path)
     log_benchmark(base_path, item_count, total_size_collected, elapsed_time)
 
+#==============================#
+
+# Function to handle user input when multiple drives are detected
 def input_case(drives):
     print("This program found more than 1 drive.")
     print("Please select the drive. Select the number: (\"exit\" to end program)")
@@ -208,6 +218,9 @@ def input_case(drives):
         else:
             print("Invalid drive. Please try again (\"exit\" to end program)")
 
+#==============================#
+
+# Main async function to control the flow of the disk analyzer
 async def main():
     print("-" * 55)
     nested_directory = 0
@@ -259,6 +272,8 @@ async def main():
         await analyze(path)
         nested_directory += 1
 
+#==============================#
 
+# Entry point to run the main async function
 if __name__ == "__main__":
     asyncio.run(main())
