@@ -1,11 +1,7 @@
 import os
-import shutil
-import time
-import csv
-from datetime import datetime
 import psutil
-import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+from datetime import datetime
 
 # =======================
 # Converts byte size into --> e.g., KB, MB, GB.
